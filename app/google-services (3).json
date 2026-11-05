@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "465918377459",
+    "project_id": "stacksave1-9bcef",
+    "storage_bucket": "stacksave1-9bcef.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465918377459:android:01660b35345bdf9e296686",
+        "android_client_info": {
+          "package_name": "com.babs.stacksave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSD_SVDPESEZFAE275O2TIGAQzpMXXVtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465918377459:android:54e176a8d071eb25296686",
+        "android_client_info": {
+          "package_name": "com.example.stacksave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSD_SVDPESEZFAE275O2TIGAQzpMXXVtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

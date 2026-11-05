@@ -1,0 +1,263 @@
+{
+  "info": {
+    "_postman_id": "8abf3a6d-31d0-4b5d-9aa0-stacksave-live",
+    "name": "StackSave - Loyalty Hub + Open Food Facts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Actual documented Loyalty Hub paths and Open Food Facts v3 barcode lookup. Key is a local Postman variable."
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{LOYALTYHUB_API_KEY}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. Loyalty Hub - Search prices",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{LOYALTYHUB_BASE_URL}}/api/v1/prices?search={{searchQuery}}&limit=20",
+          "host": [
+            "{{LOYALTYHUB_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "prices"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "{{searchQuery}}"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "Search live observed grocery prices. Uses Bearer token inherited from collection."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is successful', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "let body={}; try { body=pm.response.json(); } catch(e) {}",
+              "console.log('Response:', body);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Loyalty Hub - Product offers by barcode",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{LOYALTYHUB_BASE_URL}}/api/v1/products?barcode={{barcode}}",
+          "host": [
+            "{{LOYALTYHUB_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "barcode",
+              "value": "{{barcode}}"
+            }
+          ]
+        },
+        "description": "Gets a product grouped across retailers by barcode."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is successful', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "let body={}; try { body=pm.response.json(); } catch(e) {}",
+              "console.log('Response:', body);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Loyalty Hub - List retailers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{LOYALTYHUB_BASE_URL}}/api/v1/retailers",
+          "host": [
+            "{{LOYALTYHUB_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "retailers"
+          ]
+        },
+        "description": "Lists retailers and their last-updated timestamps."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is successful', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "let body={}; try { body=pm.response.json(); } catch(e) {}",
+              "console.log('Response:', body);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Open Food Facts - Product image by barcode",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "User-Agent",
+            "value": "{{OPEN_FOOD_FACTS_USER_AGENT}}"
+          }
+        ],
+        "url": {
+          "raw": "{{OPENFOODFACTS_BASE_URL}}/api/v3/product/{{barcode}}.json?fields=code,product_name,selected_images,image_front_url,image_url",
+          "host": [
+            "{{OPENFOODFACTS_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v3",
+            "product",
+            "{{barcode}}.json"
+          ],
+          "query": [
+            {
+              "key": "fields",
+              "value": "code,product_name,selected_images,image_front_url,image_url"
+            }
+          ]
+        },
+        "description": "Barcode lookup using current v3 API. A product can exist without an image.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is successful', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "let body={}; try { body=pm.response.json(); } catch(e) {}",
+              "console.log('Response:', body);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Open Food Facts - Text search fallback (legacy)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "User-Agent",
+            "value": "{{OPEN_FOOD_FACTS_USER_AGENT}}"
+          }
+        ],
+        "url": {
+          "raw": "{{OPENFOODFACTS_BASE_URL}}/cgi/search.pl?search_terms={{searchQuery}}&search_simple=1&action=process&json=1&page_size=10",
+          "host": [
+            "{{OPENFOODFACTS_BASE_URL}}"
+          ],
+          "path": [
+            "cgi",
+            "search.pl"
+          ],
+          "query": [
+            {
+              "key": "search_terms",
+              "value": "{{searchQuery}}"
+            },
+            {
+              "key": "search_simple",
+              "value": "1"
+            },
+            {
+              "key": "action",
+              "value": "process"
+            },
+            {
+              "key": "json",
+              "value": "1"
+            },
+            {
+              "key": "page_size",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Legacy full-text fallback only; prefer barcode lookup in the app.",
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is successful', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "let body={}; try { body=pm.response.json(); } catch(e) {}",
+              "console.log('Response:', body);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "StackSave - AZ Labs Grocery API",
+    "description": "Postman checks for AZ Labs grocery compare/search/stores. Set the collection bearer token variable to your newly rotated AZ Labs key in Postman; do not export or share the populated value.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://azlabs.ai"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "query",
+      "value": "bread"
+    }
+  ],
+  "item": [
+    {
+      "name": "Compare product across stores",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/grocery/compare?q={{query}}&limit=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "grocery",
+            "compare"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "{{query}}"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search catalogue",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/grocery/search?q={{query}}&store=all&limit=10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "grocery",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "{{query}}"
+            },
+            {
+              "key": "store",
+              "value": "all"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "List supported stores (no quota) ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/grocery/stores",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "grocery",
+            "stores"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+## Copy these settings into local.properties; retain your own sdk.dir value.
+STACKSAVE_BACKEND_BASE_URL=http\://10.0.2.2\:8080/
